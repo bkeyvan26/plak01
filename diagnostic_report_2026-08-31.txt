@@ -1,0 +1,29 @@
+k1plak diagnostic report - 2026-08-31
+
+RTSP:
+- Test camera: 172.20.34.112
+- Working URL: rtsp://root:123456@172.20.34.112:554/axis-media/media.amp
+- Probe result: 98 frames / 3 seconds (~32.7 FPS)
+- Sample frame: storage/rtsp_probe.jpg
+
+Unified launcher:
+- Enabled database camera connected successfully.
+- Camera worker status: online.
+- Missing local YOLO NCNN model is handled gracefully; frames continue to live buffer.
+- TensorFlow OCR is unavailable in the current environment; OCR remains disabled
+  until TensorFlow and the local OCR checkpoint are installed.
+
+Live endpoint:
+- GET /video_feed?camera_id=1 returned HTTP 200.
+- Content-Type: multipart/x-mixed-replace; boundary=frame.
+- MJPEG boundary chunk received successfully.
+
+Synthetic chain:
+- Fake detector + fake OCR completed detection -> parsing -> storage -> SQLite.
+- SQLite detections inserted: 1.
+- Storage root: D:/plak01/storage
+- Sample output: storage/synthetic_camera/2026-08-31/
+
+Tests:
+- Unit tests: 8 passed.
+- Jinja template compilation: passed.

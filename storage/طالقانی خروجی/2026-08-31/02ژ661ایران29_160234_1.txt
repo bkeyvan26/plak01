@@ -1,0 +1,12 @@
+plate=02ژ661ایران29
+category=disabled_veteran
+province_code=02
+serial=661
+letter=ژ
+region_code=29
+track_id=2701
+speed_kmh=0.0
+camera=طالقانی خروجی
+timestamp=2026-08-31T16:02:34.402519
+speed_violation=False
+stopped_seconds=2.4

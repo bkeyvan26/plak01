@@ -1,0 +1,7 @@
+# Sample estimate only; replace by running:
+# python run_alpr.py --benchmark
+elapsed_seconds=60.00
+average_fps=15.00
+total_detections=0
+unique_plates=0
+cpu_usage=unmeasured

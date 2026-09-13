@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head">
+  <h1 class="page-title">📐 تعیین محدوده پردازش — {{ camera.name }}</h1>
+  <a class="btn btn-secondary" href="/cameras">بازگشت</a>
+</div>
+<div class="card roi-card">
+  <p class="muted">روی تصویر حداقل چهار نقطه کلیک کنید تا محدوده‌ای که تردد باید در آن بررسی شود مشخص شود.</p>
+  <div class="roi-stage">
+    <img id="snapshot" src="/api/live/snapshot/{{ camera.id }}" alt="تصویر دوربین">
+    <canvas id="roiCanvas"></canvas>
+  </div>
+  <div class="actions">
+    <button id="clearBtn" class="btn btn-secondary" type="button">پاک کردن</button>
+    <button id="saveBtn" class="btn" type="button">ذخیره محدوده</button>
+    <span id="message" class="muted"></span>
+  </div>
+</div>
+<script>
+(() => {
+  const img = document.getElementById('snapshot');
+  const canvas = document.getElementById('roiCanvas');
+  const stage = document.querySelector('.roi-stage');
+  const ctx = canvas.getContext('2d');
+  let points = [];
+  const existing = {{ camera.zone|default('', true)|tojson }};
+
+  function resize() {
+    const r = img.getBoundingClientRect();
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
+    canvas.style.width = img.clientWidth + 'px';
+    canvas.style.height = img.clientHeight + 'px';
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (points.length < 1) return;
+    ctx.lineWidth = 3; ctx.strokeStyle = '#35e26f'; ctx.fillStyle = '#35e26f';
+    ctx.beginPath();
+    points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+    if (points.length >= 3) { ctx.closePath(); ctx.fillStyle = 'rgba(53,226,111,.16)'; ctx.fill(); }
+    ctx.stroke();
+    points.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI*2); ctx.fillStyle='#ffcf33'; ctx.fill(); });
+  }
+  function loadExisting() {
+    try {
+      const d = JSON.parse(existing || '{}');
+      const raw = d.points || [];
+      if (raw.length >= 4 && img.naturalWidth) {
+        const sx = img.clientWidth / img.naturalWidth, sy = img.clientHeight / img.naturalHeight;
+        points = raw.map(p => ({x:p[0]*sx, y:p[1]*sy}));
+      }
+    } catch (_) {}
+    draw();
+  }
+  img.addEventListener('load', () => { resize(); loadExisting(); });
+  window.addEventListener('resize', resize);
+  canvas.addEventListener('click', e => {
+    const r = canvas.getBoundingClientRect();
+    points.push({x:e.clientX-r.left, y:e.clientY-r.top}); draw();
+  });
+  document.getElementById('clearBtn').onclick = () => { points=[]; draw(); };
+  document.getElementById('saveBtn').onclick = async () => {
+    const msg = document.getElementById('message');
+    if (points.length < 4) { msg.textContent='حداقل چهار نقطه لازم است.'; msg.style.color='#ff9ca8'; return; }
+    const sx = img.naturalWidth / img.clientWidth, sy = img.naturalHeight / img.clientHeight;
+    const payload = {points: points.map(p => [Math.round(p.x*sx), Math.round(p.y*sy)])};
+    const res = await fetch('/cameras/{{ camera.id }}/roi', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+    const data = await res.json();
+    msg.textContent = res.ok ? 'محدوده با موفقیت ذخیره شد.' : (data.error || 'خطا در ذخیره محدوده');
+    msg.style.color = res.ok ? '#86efac' : '#ff9ca8';
+  };
+})();
+</script>
+{% endblock %}

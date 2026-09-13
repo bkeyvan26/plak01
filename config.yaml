@@ -1,0 +1,24 @@
+camera:
+  name: test_camera
+  source: "rtsp://root:123456@172.20.34.112:554/axis-media/media.amp"
+  reconnect_seconds: 5
+  frame_skip: 0
+models:
+  detector: "models/platrix/plate_yolo.onnx"
+  ocr: "models/platrix/ocr_crnn.onnx"
+  device: "cpu"
+  imgsz: 640
+  confidence: 0.35
+speed:
+  reference_width_m: 2.0
+  pixels_per_meter: 180.0
+  violation_kmh: 60.0
+  min_track_seconds: 0.5
+storage:
+  root: "D:/plak01/storage"
+  admin_configurable: true
+  cooldown_seconds: 60
+  stopped_after_seconds: 30
+  jpeg_quality: 90
+  plate_upscale: 4
+  plate_min_width: 640

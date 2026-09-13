@@ -1,0 +1,12 @@
+plate=01ژ553ایران09
+category=disabled_veteran
+province_code=01
+serial=553
+letter=ژ
+region_code=09
+track_id=1807
+speed_kmh=0.0
+camera=طالقانی خروجی
+timestamp=2026-08-31T16:23:40.215661
+speed_violation=False
+stopped_seconds=0

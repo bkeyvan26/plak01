@@ -1,0 +1,12 @@
+plate=02ه461ایران61
+category=private
+province_code=02
+serial=461
+letter=ه
+region_code=61
+track_id=2921
+speed_kmh=0.05
+camera=طالقانی خروجی
+timestamp=2026-08-31T16:04:35.420116
+speed_violation=False
+stopped_seconds=5.7

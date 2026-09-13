@@ -1,0 +1,12 @@
+plate=02ت660ایران19
+category=taxi
+province_code=02
+serial=660
+letter=ت
+region_code=19
+track_id=132
+speed_kmh=0.0
+camera=طالقانی خروجی
+timestamp=2026-08-31T16:10:39.141155
+speed_violation=False
+stopped_seconds=1.1

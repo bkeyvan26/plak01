@@ -1,0 +1,12 @@
+plate=02ژ461ایران20
+category=disabled_veteran
+province_code=02
+serial=461
+letter=ژ
+region_code=20
+track_id=2701
+speed_kmh=0.16
+camera=طالقانی خروجی
+timestamp=2026-08-31T16:04:29.053060
+speed_violation=False
+stopped_seconds=117.0

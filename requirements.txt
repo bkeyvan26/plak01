@@ -1,0 +1,12 @@
+opencv-python>=4.8
+numpy>=1.24
+PyYAML>=6.0
+ultralytics>=8.2
+torch>=2.0
+Pillow>=9.0
+requests>=2.31
+psutil>=5.9
+Flask>=3.0
+onnxruntime>=1.18
+# Optional OCR backends (install only for your selected checkpoint):
+# hezar>=0.42

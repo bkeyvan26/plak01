@@ -1,0 +1,11 @@
+k1plak integration simulation report
+Date: 2026-08-30
+
+Physical RTSP verification was not possible in this environment. The unified
+launcher was syntax-checked and the existing unit suite passed (8 tests).
+Assuming rtsp://root:123456@172.20.34.112:554/ is reachable, start_all.py reads
+enabled cameras, starts one daemon worker per camera, retries failed streams,
+publishes encoded frames to frame_buffer, inserts accepted detections into
+k1plak.db, and writes camera/date/plate image and metadata files under storage.
+If the stream is unavailable, system_logs records three failures with 5/10/20
+second backoff and the camera is marked offline for that process run.

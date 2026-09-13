@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">📷 مدیریت دوربین‌ها</h1>
+<div class="card">
+  <div class="section-head"><h2>افزودن دوربین جدید</h2></div>
+  <form method="post" class="form-grid">
+    <div><label>نام دوربین</label><input name="name" required></div>
+    <div><label>نشانی IP</label><input name="ip" required></div>
+    <div><label>پورت</label><input name="port" value="554"></div>
+    <div><label>نام کاربری</label><input name="username" value="root"></div>
+    <div><label>رمز عبور</label><input name="password" type="password"></div>
+    <div><label>حداکثر سرعت مجاز (km/h)</label><input name="speed_threshold" type="number" value="60"></div>
+    <div style="grid-column:1/-1">
+      <label>محدوده پردازش اولیه (اختیاری)</label><input name="zone" placeholder="x1,y1,x2,y2">
+      <small class="muted">پس از ثبت دوربین، از دکمه «تعیین محدوده» برای انتخاب حداقل چهار نقطه روی تصویر استفاده کنید.</small>
+    </div>
+    <button class="btn" type="submit">+ افزودن دوربین</button>
+  </form>
+</div>
+<div class="card"><div class="table-wrap"><table class="table">
+  <thead><tr><th>نام</th><th>IP</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+  <tbody>
+  {% for c in cameras %}
+    <tr>
+      <td>{{ c.name }}</td><td dir="ltr">{{ c.ip }}:{{ c.port }}</td>
+      <td><span class="badge {{ 'badge-ok' if c.enabled else 'badge-off' }}">{{ 'فعال' if c.enabled else 'غیرفعال' }}</span></td>
+      <td class="action-group">
+        <form method="post" action="/cameras/{{ c.id }}/toggle" style="display:inline"><button class="btn btn-secondary btn-sm" type="submit">تغییر وضعیت</button></form>
+        <a class="btn btn-roi btn-sm" href="/cameras/{{ c.id }}/roi">📐 تعیین محدوده</a>
+      </td>
+    </tr>
+  {% else %}<tr><td colspan="4" class="empty">دوربینی ثبت نشده است.</td></tr>{% endfor %}
+  </tbody>
+</table></div></div>
+{% endblock %}
